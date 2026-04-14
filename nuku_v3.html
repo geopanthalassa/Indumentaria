@@ -488,7 +488,7 @@ footer strong { color:var(--teal-dk); }
 <section class="hero">
   <div class="hero-orb hero-orb-1"></div>
   <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div>Nueva Temporada 2025</div>
+  <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div>Colección Otoño · Invierno 2026</div>
   <h1>Movete con<br><em>propósito</em></h1>
   <p class="hero-sub">Indumentaria deportiva que acompaña tu ritmo. Calidad, comodidad y diseño en cada prenda.</p>
   <div class="hero-cta-row">
@@ -568,7 +568,7 @@ footer strong { color:var(--teal-dk); }
     <div class="cat-card" id="cat-infantil">
       <div class="cat-card-header" onclick="toggleCat('infantil')">
         <div class="cat-card-left">
-          <div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/><path d="M2 12h20"/></svg></div>
+          <div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.2"/><path d="M9 9.5h6"/><path d="M9 9.5c0 0-1.5 2-1.5 4v3h9v-3c0-2-1.5-4-1.5-4"/><path d="M10.5 16.5v4"/><path d="M13.5 16.5v4"/></svg></div>
           <div>
             <div class="cat-title">Infantil</div>
             <div class="cat-desc">3 productos · Conjuntos para niños</div>
@@ -668,7 +668,7 @@ const PRODUCTS = {
     { id:'SZ-M-001', name:'Calza Deportiva', price:18000, sizes:['XS','S','M','L','XL'],
       colors:[{label:'Bordo',value:'bordo',hex:'#7d2235'},{label:'Rosa',value:'rosa',hex:'#e87d9b'}], img:'1' },
     { id:'SZ-M-002', name:'Top Deportivo', price:14000, sizes:['XS','S','M','L','XL'],
-      colors:[{label:'Bordo/Blanco',value:'bordo-blanco',hex:'#7d2235'},{label:'Negro',value:'negro',hex:'#2c2c2c'}], img:'2' },
+      colors:[{label:'Bordo / Blanco',value:'bordo-blanco',hex:'#7d2235'},{label:'Negro',value:'negro',hex:'#2c2c2c'}], img:'2' },
     { id:'SZ-M-003', name:'Top Premium', price:20000, sizes:['XS','S','M','L','XL'],
       colors:[{label:'Verde',value:'verde',hex:'#4a7a5a'},{label:'Negro',value:'negro',hex:'#2c2c2c'}], img:'3' },
     { id:'SZ-M-004', name:'Top One Shoulder', price:20000, sizes:['XS','S','M','L','XL'],
@@ -684,114 +684,156 @@ const PRODUCTS = {
     { id:'SZ-H-003', name:'Buzo Mindstate', price:20000, sizes:['S','M','L','XL','XXL'],
       colors:[{label:'Negro',value:'negro',hex:'#2c2c2c'},{label:'Gris',value:'gris',hex:'#888'}], img:'12' },
     { id:'SZ-H-004', name:'Conjunto Sportwear', price:35000, sizes:['S','M','L','XL','XXL'],
-      colors:[{label:'Negro/Celeste',value:'negro-celeste',hex:'#1a2e40'}], img:'9' },
+      colors:[{label:'Negro / Celeste',value:'negro-celeste',hex:'#1a2e40'}], img:'9' },
   ],
   infantil: [
-    { id:'SZ-I-001', name:'Conjunto Deportivo Niño', price:20000, sizes:['2','4','6','8','10','12'],
-      colors:[{label:'Azul/Celeste',value:'azul-celeste',hex:'#1e3a5f'}], img:'6' },
+    { id:'SZ-I-001', name:'Conjunto Deportivo', price:20000, sizes:['2','4','6','8','10','12'],
+      colors:[{label:'Azul / Celeste',value:'azul-celeste',hex:'#1e3a5f'}], img:'6' },
     { id:'SZ-I-002', name:'Conjunto Nike Athl. Dept.', price:30000, sizes:['2','4','6','8','10','12'],
-      colors:[{label:'Blanco/Verde',value:'blanco-verde',hex:'#e8e8e0'}], img:'7', badge:'NIKE' },
-    { id:'SZ-I-003', name:'Conjunto AFA Selección', price:25000, sizes:['2','4','6','8','10','12'],
-      colors:[{label:'Celeste/Azul',value:'celeste-azul',hex:'#75b2dd'}], img:'8', badge:'AFA' },
+      colors:[{label:'Blanco / Verde',value:'blanco-verde',hex:'#e8e8e0'}], img:'7', badge:'NIKE' },
+    { id:'SZ-I-003', name:'Conjunto AFA Seleccion', price:25000, sizes:['2','4','6','8','10','12'],
+      colors:[{label:'Celeste / Azul',value:'celeste-azul',hex:'#75b2dd'}], img:'8', badge:'AFA' },
   ],
 };
 
 /* ========================
-   CARRITO
+   ESTADO
 ======================== */
 let cart = [];
 let cartOpen = false;
 
 /* ========================
-   TOGGLE CATEGORÍAS
+   TOGGLE CATEGORIAS
 ======================== */
 function toggleCat(name) {
-  const card    = document.getElementById('cat-' + name);
-  const drawer  = document.getElementById('drawer-' + name);
-  const isOpen  = card.classList.contains('open');
-  card.classList.toggle('open', !isOpen);
-  drawer.classList.toggle('open', !isOpen);
+  const card   = document.getElementById('cat-' + name);
+  const drawer = document.getElementById('drawer-' + name);
+  const isOpen = card.classList.contains('open');
+  // cerrar todas primero
+  ['mujer','hombre','infantil'].forEach(function(c) {
+    document.getElementById('cat-' + c).classList.remove('open');
+    document.getElementById('drawer-' + c).classList.remove('open');
+  });
+  // abrir la seleccionada si estaba cerrada
   if (!isOpen) {
-    setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
+    card.classList.add('open');
+    drawer.classList.add('open');
+    setTimeout(function() {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 120);
   }
 }
 
 /* ========================
-   RENDER PRODUCTS
+   RENDER PRODUCTOS
 ======================== */
 function renderProducts() {
-  ['mujer','hombre','infantil'].forEach(cat => {
-    const grid = document.getElementById('grid-' + cat);
-    grid.innerHTML = PRODUCTS[cat].map(p => buildCard(p)).join('');
+  ['mujer','hombre','infantil'].forEach(function(cat) {
+    var grid = document.getElementById('grid-' + cat);
+    grid.innerHTML = PRODUCTS[cat].map(function(p) { return buildCard(p); }).join('');
   });
-  // auto-select first options
-  document.querySelectorAll('.color-chip, .color-text-chip').forEach(el => {
-    const pid = el.closest('[data-pid]').dataset.pid;
-    const container = el.parentElement;
-    if (!container.querySelector('.selected')) el.click();
-  });
-  document.querySelectorAll('.size-btn').forEach(el => {
-    const container = el.parentElement;
-    if (!container.querySelector('.selected')) el.click();
+  // Inicializar selecciones
+  initSelections();
+}
+
+function initSelections() {
+  // Para cada producto, seleccionar primer color y primer talle programáticamente (sin .click())
+  ['mujer','hombre','infantil'].forEach(function(cat) {
+    PRODUCTS[cat].forEach(function(p) {
+      // Primer color
+      var colContainer = document.getElementById('col-' + p.id);
+      if (colContainer) {
+        var firstCol = colContainer.querySelector('.color-chip, .color-text-chip');
+        if (firstCol) {
+          firstCol.classList.add('selected');
+          var card = document.querySelector('[data-pid="' + p.id + '"]');
+          if (card) {
+            card.dataset.color = firstCol.dataset.value;
+            card.dataset.colorLabel = firstCol.dataset.label;
+          }
+        }
+      }
+      // Primer talle
+      var szContainer = document.getElementById('sz-' + p.id);
+      if (szContainer) {
+        var firstSz = szContainer.querySelector('.size-btn');
+        if (firstSz) {
+          firstSz.classList.add('selected');
+          var card2 = document.querySelector('[data-pid="' + p.id + '"]');
+          if (card2) card2.dataset.size = firstSz.dataset.size;
+        }
+      }
+    });
   });
 }
 
 function buildCard(p) {
-  const img = IMG[p.img] || '';
-  const badge = p.badge ? `<div class="card-badge">${p.badge}</div>` : '';
-  const colorChips = p.colors.map(c => {
-    const isMulti = c.label.includes('/') || c.label.includes('-');
+  var img = IMG[p.img] || '';
+  var badge = p.badge ? '<div class="card-badge">' + p.badge + '</div>' : '';
+
+  var colorChips = p.colors.map(function(c) {
+    var isMulti = c.label.indexOf('/') >= 0 || c.label.indexOf('-') >= 0;
     if (isMulti) {
-      return `<span class="color-text-chip" data-value="${c.value}" data-label="${c.label}" onclick="selColor(this,'${p.id}')">${c.label}</span>`;
+      return '<span class="color-text-chip" data-value="' + c.value + '" data-label="' + c.label + '" onclick="selColor(this,\'' + p.id + '\')">' + c.label + '</span>';
     }
-    return `<span class="color-chip" style="background:${c.hex}" data-value="${c.value}" data-label="${c.label}" title="${c.label}" onclick="selColor(this,'${p.id}')"></span>`;
+    return '<span class="color-chip" style="background:' + c.hex + '" data-value="' + c.value + '" data-label="' + c.label + '" title="' + c.label + '" onclick="selColor(this,\'' + p.id + '\')"></span>';
   }).join('');
-  const sizesBtns = p.sizes.map(s =>
-    `<button class="size-btn" data-size="${s}" onclick="selSize(this,'${p.id}')">${s}</button>`
-  ).join('');
-  return `
-  <div class="card" data-pid="${p.id}" data-qty="1" data-color="" data-color-label="" data-size="" style="position:relative">
-    ${badge}
-    <div class="card-img-wrap"><img src="${img}" alt="${p.name}" loading="lazy"></div>
-    <div class="card-body">
-      <div><div class="card-code">${p.id}</div><div class="card-name">${p.name}</div></div>
-      <div class="card-price">$${p.price.toLocaleString('es-AR')}</div>
-      <div><div class="sel-label">Color</div><div class="color-options" id="col-${p.id}">${colorChips}</div></div>
-      <div><div class="sel-label">Talle</div><div class="size-options" id="sz-${p.id}">${sizesBtns}</div></div>
-      <div class="qty-row">
-        <div class="sel-label" style="margin:0">Cant.</div>
-        <div class="qty-control">
-          <button onclick="chgQty('${p.id}',-1)">−</button>
-          <span class="qty-value" id="qty-${p.id}">1</span>
-          <button onclick="chgQty('${p.id}',1)">+</button>
-        </div>
-      </div>
-      <button class="add-btn" id="ab-${p.id}" onclick="addToCart('${p.id}')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.97-1.67l1.38-7.33H6"/></svg>
-        Agregar al carrito
-      </button>
-    </div>
-  </div>`;
+
+  var sizesBtns = p.sizes.map(function(s) {
+    return '<button class="size-btn" data-size="' + s + '" onclick="selSize(this,\'' + p.id + '\')">' + s + '</button>';
+  }).join('');
+
+  var priceStr = '$' + p.price.toLocaleString('es-AR');
+
+  return '<div class="card" data-pid="' + p.id + '" data-qty="1" data-color="" data-color-label="" data-size="" style="position:relative">'
+    + badge
+    + '<div class="card-img-wrap"><img src="' + img + '" alt="' + p.name + '" loading="lazy"></div>'
+    + '<div class="card-body">'
+    + '<div><div class="card-code">' + p.id + '</div><div class="card-name">' + p.name + '</div></div>'
+    + '<div class="card-price">' + priceStr + '</div>'
+    + '<div><div class="sel-label">Color</div><div class="color-options" id="col-' + p.id + '">' + colorChips + '</div></div>'
+    + '<div><div class="sel-label">Talle</div><div class="size-options" id="sz-' + p.id + '">' + sizesBtns + '</div></div>'
+    + '<div class="qty-row">'
+    + '<div class="sel-label" style="margin:0">Cant.</div>'
+    + '<div class="qty-control">'
+    + '<button onclick="chgQty(\'' + p.id + '\',-1)">&#8722;</button>'
+    + '<span class="qty-value" id="qty-' + p.id + '">1</span>'
+    + '<button onclick="chgQty(\'' + p.id + '\',1)">+</button>'
+    + '</div>'
+    + '</div>'
+    + '<button class="add-btn" id="ab-' + p.id + '" onclick="addToCart(\'' + p.id + '\')">'
+    + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.97-1.67l1.38-7.33H6"/></svg>'
+    + 'Agregar al carrito'
+    + '</button>'
+    + '</div>'
+    + '</div>';
 }
 
 /* ========================
    SELECTORES
 ======================== */
 function selColor(el, pid) {
-  document.getElementById('col-' + pid).querySelectorAll('.color-chip,.color-text-chip').forEach(e => e.classList.remove('selected'));
+  var container = document.getElementById('col-' + pid);
+  container.querySelectorAll('.color-chip,.color-text-chip').forEach(function(e) { e.classList.remove('selected'); });
   el.classList.add('selected');
-  const card = document.querySelector(`[data-pid="${pid}"]`);
-  card.dataset.color = el.dataset.value;
-  card.dataset.colorLabel = el.dataset.label;
+  var card = document.querySelector('[data-pid="' + pid + '"]');
+  if (card) {
+    card.dataset.color = el.dataset.value;
+    card.dataset.colorLabel = el.dataset.label;
+  }
 }
+
 function selSize(el, pid) {
-  document.getElementById('sz-' + pid).querySelectorAll('.size-btn').forEach(e => e.classList.remove('selected'));
+  var container = document.getElementById('sz-' + pid);
+  container.querySelectorAll('.size-btn').forEach(function(e) { e.classList.remove('selected'); });
   el.classList.add('selected');
-  document.querySelector(`[data-pid="${pid}"]`).dataset.size = el.dataset.size;
+  var card = document.querySelector('[data-pid="' + pid + '"]');
+  if (card) card.dataset.size = el.dataset.size;
 }
+
 function chgQty(pid, d) {
-  const card = document.querySelector(`[data-pid="${pid}"]`);
-  let q = Math.min(99, Math.max(1, parseInt(card.dataset.qty || 1) + d));
+  var card = document.querySelector('[data-pid="' + pid + '"]');
+  var q = Math.min(99, Math.max(1, parseInt(card.dataset.qty || 1) + d));
   card.dataset.qty = q;
   document.getElementById('qty-' + pid).textContent = q;
 }
@@ -800,57 +842,65 @@ function chgQty(pid, d) {
    AGREGAR AL CARRITO
 ======================== */
 function addToCart(pid) {
-  const card = document.querySelector(`[data-pid="${pid}"]`);
-  if (!card.dataset.color) { showToast('Seleccioná un color', true); return; }
-  if (!card.dataset.size)  { showToast('Seleccioná un talle', true); return; }
-  let prod = null;
-  for (const cat of Object.values(PRODUCTS)) { prod = cat.find(p => p.id === pid); if (prod) break; }
+  var card = document.querySelector('[data-pid="' + pid + '"]');
+  if (!card.dataset.color) { showToast('Selecciona un color', true); return; }
+  if (!card.dataset.size)  { showToast('Selecciona un talle', true); return; }
+  var prod = null;
+  var cats = Object.values(PRODUCTS);
+  for (var i = 0; i < cats.length; i++) {
+    var found = cats[i].find(function(p) { return p.id === pid; });
+    if (found) { prod = found; break; }
+  }
   if (!prod) return;
-  const qty = parseInt(card.dataset.qty || 1);
-  const idx = cart.findIndex(i => i.id === pid && i.color === card.dataset.color && i.size === card.dataset.size);
+  var qty = parseInt(card.dataset.qty || 1);
+  var color = card.dataset.color;
+  var colorLabel = card.dataset.colorLabel;
+  var size = card.dataset.size;
+  var idx = cart.findIndex(function(i) { return i.id === pid && i.color === color && i.size === size; });
   if (idx >= 0) {
     cart[idx].qty += qty;
     cart[idx].subtotal = cart[idx].qty * cart[idx].price;
   } else {
-    cart.push({ id:pid, name:prod.name, price:prod.price, qty, color:card.dataset.color,
-      colorLabel:card.dataset.colorLabel, size:card.dataset.size,
-      subtotal:prod.price*qty, img:IMG[prod.img]||'' });
+    cart.push({ id:pid, name:prod.name, price:prod.price, qty:qty, color:color,
+      colorLabel:colorLabel, size:size, subtotal:prod.price*qty, img: IMG[prod.img] || '' });
   }
   renderCart();
-  flashBtn(pid);
-  showToast('+ prod.name + ' agregado');
+  flashBtn(pid, prod.name);
+  showToast(prod.name + ' agregado al carrito');
 }
 
 /* ========================
    RENDER CARRITO
 ======================== */
 function renderCart() {
-  const ci = document.getElementById('cart-items');
-  const totalItems = cart.reduce((s,i)=>s+i.qty,0);
-  const totalAmt   = cart.reduce((s,i)=>s+i.subtotal,0);
-  const cc = document.getElementById('cart-count');
-  totalItems > 0 ? (cc.textContent=totalItems, cc.classList.remove('hidden')) : cc.classList.add('hidden');
+  var ci = document.getElementById('cart-items');
+  var totalItems  = cart.reduce(function(s,i){ return s+i.qty; }, 0);
+  var totalAmt    = cart.reduce(function(s,i){ return s+i.subtotal; }, 0);
+  var cc = document.getElementById('cart-count');
+  if (totalItems > 0) { cc.textContent = totalItems; cc.classList.remove('hidden'); }
+  else { cc.classList.add('hidden'); }
   document.getElementById('cart-total').textContent = '$' + totalAmt.toLocaleString('es-AR');
-  document.getElementById('pay-btn').disabled = cart.length===0;
-  document.getElementById('wa-order-btn').disabled = cart.length===0;
-  if (cart.length===0) {
-    ci.innerHTML = `<div class="cart-empty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><p>Tu carrito está vacío</p></div>`;
+  document.getElementById('pay-btn').disabled = cart.length === 0;
+  document.getElementById('wa-order-btn').disabled = cart.length === 0;
+  if (cart.length === 0) {
+    ci.innerHTML = '<div class="cart-empty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><p>Tu carrito est\u00e1 vac\u00edo</p></div>';
     return;
   }
-  ci.innerHTML = cart.map((item,i) => `
-    <div class="cart-item">
-      <img class="cart-item-img" src="${item.img}" alt="${item.name}">
-      <div>
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-code">${item.id}</div>
-        <div class="cart-item-tags"><span>${item.colorLabel}</span><span>Talle ${item.size}</span><span>×${item.qty}</span></div>
-        <div class="cart-item-price">$${item.subtotal.toLocaleString('es-AR')}</div>
-      </div>
-      <button class="remove-btn" onclick="removeItem(${i})">&times;</button>
-    </div>`).join('');
+  ci.innerHTML = cart.map(function(item, i) {
+    return '<div class="cart-item">'
+      + '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
+      + '<div>'
+      + '<div class="cart-item-name">' + item.name + '</div>'
+      + '<div class="cart-item-code">' + item.id + '</div>'
+      + '<div class="cart-item-tags"><span>' + item.colorLabel + '</span><span>Talle ' + item.size + '</span><span>&times;' + item.qty + '</span></div>'
+      + '<div class="cart-item-price">$' + item.subtotal.toLocaleString('es-AR') + '</div>'
+      + '</div>'
+      + '<button class="remove-btn" onclick="removeItem(' + i + ')">&times;</button>'
+      + '</div>';
+  }).join('');
 }
 
-function removeItem(i) { cart.splice(i,1); renderCart(); }
+function removeItem(i) { cart.splice(i, 1); renderCart(); }
 
 /* ========================
    TOGGLE CARRITO
@@ -863,54 +913,62 @@ function toggleCart() {
 }
 
 /* ========================
-   FLASH BOTÓN
+   FLASH BOTON
 ======================== */
-function flashBtn(pid) {
-  const btn = document.getElementById('ab-' + pid);
+function flashBtn(pid, name) {
+  var btn = document.getElementById('ab-' + pid);
   if (!btn) return;
   btn.classList.add('added');
   btn.innerHTML = 'Agregado';
-  setTimeout(() => {
+  setTimeout(function() {
     btn.classList.remove('added');
-    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.97-1.67l1.38-7.33H6"/></svg>Agregar al carrito`;
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.97-1.67l1.38-7.33H6"/></svg>Agregar al carrito';
   }, 2000);
 }
 
 /* ========================
    TOAST
 ======================== */
-function showToast(msg, err=false) {
-  const t = document.getElementById('toast');
+function showToast(msg, err) {
+  var t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast' + (err ? ' err' : '');
-  requestAnimationFrame(() => t.classList.add('show'));
+  requestAnimationFrame(function() { t.classList.add('show'); });
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 2800);
+  t._t = setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
 /* ========================
-   API CHECKOUT
+   API CHECKOUT (MercadoPago)
 ======================== */
-async function checkout() {
+function checkout() {
   if (!cart.length) return;
   document.getElementById('loading').classList.add('show');
-  const payload = {
-    items: cart.map(i => ({ id:i.id, name:i.name, color:i.colorLabel, size:i.size, qty:i.qty, unit_price:i.price, subtotal:i.subtotal })),
-    total: cart.reduce((s,i)=>s+i.subtotal,0),
+  var payload = {
+    items: cart.map(function(i) {
+      return { id:i.id, name:i.name, color:i.colorLabel, size:i.size, qty:i.qty, unit_price:i.price, subtotal:i.subtotal };
+    }),
+    total: cart.reduce(function(s,i){ return s+i.subtotal; }, 0),
   };
-  try {
-    const r1 = await fetch(CONFIG.API_BASE+'/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-    if (!r1.ok) throw new Error('Error al crear el pedido');
-    const order = await r1.json();
-    const r2 = await fetch(CONFIG.API_BASE+'/payments/create', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({order_id:order.id,...payload}) });
-    if (!r2.ok) throw new Error('Error al iniciar el pago');
-    const pay = await r2.json();
+  fetch(CONFIG.API_BASE + '/orders', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+  })
+  .then(function(r) { if (!r.ok) throw new Error('Error al crear el pedido'); return r.json(); })
+  .then(function(order) {
+    return fetch(CONFIG.API_BASE + '/payments/create', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(Object.assign({ order_id: order.id }, payload))
+    });
+  })
+  .then(function(r) { if (!r.ok) throw new Error('Error al iniciar el pago'); return r.json(); })
+  .then(function(pay) {
     if (pay.init_point) { window.location.href = pay.init_point; }
-    else throw new Error('No se recibió link de pago');
-  } catch(e) {
+    else throw new Error('No se recibio link de pago');
+  })
+  .catch(function(e) {
     document.getElementById('loading').classList.remove('show');
-    showToast('' + e.message, true);
-  }
+    showToast(e.message, true);
+  });
 }
 
 /* ========================
@@ -918,24 +976,25 @@ async function checkout() {
 ======================== */
 function sendWhatsApp() {
   if (!cart.length) return;
-  const total = cart.reduce((s,i)=>s+i.subtotal,0);
-  let msg = '¡Hola! Quiero hacer el siguiente pedido:\n\n';
-  cart.forEach(i => {
-    msg += `• ${i.name} (${i.id})\n`;
-    msg += `  Color: ${i.colorLabel} | Talle: ${i.size} | Cant: ${i.qty}\n`;
-    msg += `  Subtotal: $${i.subtotal.toLocaleString('es-AR')}\n\n`;
+  var total = cart.reduce(function(s,i){ return s+i.subtotal; }, 0);
+  var msg = 'Hola! Quiero hacer el siguiente pedido:\n\n';
+  cart.forEach(function(i) {
+    msg += '- ' + i.name + ' (' + i.id + ')\n';
+    msg += '  Color: ' + i.colorLabel + ' | Talle: ' + i.size + ' | Cant: ' + i.qty + '\n';
+    msg += '  Subtotal: $' + i.subtotal.toLocaleString('es-AR') + '\n\n';
   });
-  msg += `*Total: $${total.toLocaleString('es-AR')}*`;
-  window.open(`https://wa.me/${CONFIG.WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  msg += 'Total: $' + total.toLocaleString('es-AR');
+  window.open('https://wa.me/' + CONFIG.WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
 }
 
 /* ========================
    INIT
 ======================== */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
   renderProducts();
   renderCart();
 });
+
 </script>
 </body>
 </html>
